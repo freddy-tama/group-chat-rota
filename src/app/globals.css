@@ -1,26 +1,75 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Staff-room corkboard: ink on paper, a cork ground, red only for problems, blue for confirmed. */
+@theme {
+  --color-cork: #b98b5e;
+  --color-ink: #1e1b16;
+  --color-ink-soft: #3d362c;
+  --color-muted: #5c5246;
+  --color-paper: #fffdf6;
+  --color-paper-warm: #fff7e0;
+  --color-rule: #d7e4f2;
+  --color-edge: #d9cdb8;
+  --color-problem: #b42318;
+  --color-string: #c0262d;
+  --color-confirmed: #1f4f8f;
+  --color-confirmed-bg: #eef4fb;
+  --color-proposed: #b45309;
+  --color-proposed-bg: #fff7e8;
+  --color-ask: #6b3fa0;
+  --color-ask-bg: #f5effb;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-cork);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.cork {
+  background-color: #b98b5e;
+  background-image:
+    radial-gradient(rgba(90, 55, 25, 0.35) 1px, transparent 1.4px),
+    radial-gradient(rgba(255, 235, 200, 0.25) 1px, transparent 1.6px),
+    radial-gradient(rgba(60, 35, 15, 0.25) 1.2px, transparent 2px);
+  background-size: 7px 7px, 11px 11px, 17px 17px;
+  background-position: 0 0, 3px 5px, 9px 2px;
+}
+
+.ruled {
+  background-color: var(--color-paper);
+  background-image: linear-gradient(transparent 27px, var(--color-rule) 28px);
+  background-size: 100% 28px;
+}
+
+.pinned-shadow {
+  box-shadow: 0 4px 10px rgba(40, 20, 5, 0.35);
+}
+
+.on-cork {
+  color: var(--color-paper);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip-in {
+    animation: chip-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes chip-in {
+    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+:focus-visible {
+  outline: 3px solid #2f6fbd;
+  outline-offset: 2px;
 }
