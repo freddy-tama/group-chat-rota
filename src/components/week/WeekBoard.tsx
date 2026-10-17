@@ -11,6 +11,7 @@ import { RotaGrid } from "./RotaGrid";
 import { UncoveredPanels } from "./Uncovered";
 import { RedStrings, type StringLink } from "./RedStrings";
 import { WhyDrawer } from "./WhyDrawer";
+import { PublishButton, PublishedPanel, type Published } from "./PublishPanel";
 
 interface PasteResponse {
   format: { app: string; dateOrder: { value: string; basis: string }; clock: string; warnings: string[]; skipped: unknown[] };
@@ -25,11 +26,14 @@ export function WeekBoard({ weekId }: { weekId: string }) {
   const [open, setOpen] = useState<string | null>(null);
   const [fresh, setFresh] = useState<Set<string>>(new Set());
   const [notice, setNotice] = useState<string | null>(null);
+  const [published, setPublished] = useState<Published | null>(null);
   const boardRef = useRef<HTMLDivElement>(null);
 
   const load = useCallback(async () => {
     try {
-      setData(await api<WeekData>(`/api/weeks/${weekId}`));
+      const week = await api<WeekData>(`/api/weeks/${weekId}`);
+      setData(week);
+      if (week.week.status === "published") setPublished(await api<Published>(`/api/weeks/${weekId}/publish`));
       setFailure(null);
     } catch (e) {
       setFailure(e instanceof ApiFailure ? e : new ApiFailure(0, "Couldn't load this week."));
@@ -124,7 +128,18 @@ export function WeekBoard({ weekId }: { weekId: string }) {
         </div>
         <div className="ml-auto flex items-center gap-2.5">
           {data.workspace.isDemo && <span className="rounded-full bg-[#3a332a] px-2.5 py-1.5 text-[13px] text-[#f3e6cf]">Demo workspace · yours for 24 h</span>}
-          {data.week.status === "published" && <span className="rounded-full bg-confirmed px-2.5 py-1.5 text-[13px] font-bold text-white">Published</span>}
+          {data.week.status === "published" ? (
+            <span className="rounded-full bg-confirmed px-2.5 py-1.5 text-[13px] font-bold text-white">Published</span>
+          ) : (
+            <PublishButton
+              data={data}
+              onPublished={(p) => {
+                setPublished(p);
+                setNotice("Published. The rota is locked and everyone has a private link.");
+                load();
+              }}
+            />
+          )}
         </div>
       </header>
 
@@ -168,6 +183,7 @@ export function WeekBoard({ weekId }: { weekId: string }) {
           <MessageList data={data} fresh={fresh} tied={tied} onConfirm={(id) => decide(id, "confirm")} onReject={(id) => decide(id, "reject")} />
         </aside>
         <section className="flex min-w-0 flex-[999_1_640px] flex-col gap-3">
+          {published && <PublishedPanel published={published} />}
           <h2 className="on-cork m-0 font-display text-xl font-extrabold">The rota</h2>
           <RotaGrid data={data} onOpen={setOpen} highlight={open} />
           <UncoveredPanels data={data} onOpen={setOpen} />
