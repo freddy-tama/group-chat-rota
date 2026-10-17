@@ -1,0 +1,322 @@
+[
+  {
+    "id": "h01",
+    "app": "whatsapp-ios",
+    "paste": "[14/10/2026, 19:22:08] Ana: cant do tues + thurs, uni stuff 😩",
+    "author": "Ana",
+    "expected": [
+      { "person": "Ana Costa", "kind": "unavailable", "dateFrom": "2026-10-20", "dateTo": "2026-10-20", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null },
+      { "person": "Ana Costa", "kind": "unavailable", "dateFrom": "2026-10-22", "dateTo": "2026-10-22", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Two whole days in one message; Tue and Thu are not consecutive so two separate entries. Typo 'cant', '+' as 'and'."
+  },
+  {
+    "id": "h02",
+    "app": "whatsapp-ios",
+    "paste": "[15/10/2026, 20:11:45] Dara: Lou - Jo can't do mon, she asked me to say",
+    "author": "Dara",
+    "expected": [
+      { "person": "Jo Silva", "kind": "unavailable", "dateFrom": "2026-10-19", "dateTo": "2026-10-19", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Speaking for a colleague: the constraint belongs to Jo, not to the author Dara."
+  },
+  {
+    "id": "h03",
+    "app": "whatsapp-ios",
+    "paste": "[10/16/26, 6:04:11 PM] Mei: no work after 7pm mon-thurs pls, night class 🌙",
+    "author": "Mei",
+    "expected": [
+      { "person": "Mei Tanaka", "kind": "unavailable", "dateFrom": "2026-10-19", "dateTo": "2026-10-22", "timeFrom": "19:00", "timeTo": null, "daily": true, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "US mm/dd iOS format with 12 h clock and a narrow no-break space before PM. Repeated evening window over consecutive days, so one entry with daily true. '7pm' to 19:00."
+  },
+  {
+    "id": "h04",
+    "app": "whatsapp-ios",
+    "paste": "[10/17/26, 9:15:03 AM] Tom: 20 hrs max pls, got another job now",
+    "author": "Tom",
+    "expected": [
+      { "person": "Tom Byrne", "kind": "max_hours", "dateFrom": null, "dateTo": null, "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": 20 }
+    ],
+    "expectAsk": false,
+    "note": "Weekly hours cap, number first, 'hrs' abbreviation. US mm/dd iOS format."
+  },
+  {
+    "id": "h05",
+    "app": "whatsapp-ios",
+    "paste": "[17/10/2026, 21:40:15] Sammy: sorry just saw the rota msg, off sun - my sister's wedding 💍",
+    "author": "Sammy",
+    "expected": [
+      { "person": "Sam Lee", "kind": "unavailable", "dateFrom": "2026-10-25", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Author uses the alias 'Sammy' (resolves to Sam Lee). Message sent on Sat 17; 'sun' is Sun 25, not tomorrow Sun 18."
+  },
+  {
+    "id": "h06",
+    "app": "whatsapp-ios",
+    "paste": "[16/10/2026, 12:31:02] Kofi: lol Ben that gif 😂😂😂",
+    "author": "Kofi",
+    "expected": [],
+    "expectAsk": false,
+    "note": "Banter with no availability content. Must produce nothing and must not ask."
+  },
+  {
+    "id": "h07",
+    "app": "whatsapp-android",
+    "paste": "16/10/2026, 07:58 - Priya: I can do the night bake fri if that helps 🙂",
+    "author": "Priya",
+    "expected": [
+      { "person": "Priya Nair", "kind": "prefer", "dateFrom": "2026-10-23", "dateTo": "2026-10-23", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": "Night bake", "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Shift name with a space ('Night bake'). Offering to take a shift is a soft preference, not an 'available' carve-out (no earlier refusal is being reversed)."
+  },
+  {
+    "id": "h08",
+    "app": "whatsapp-android",
+    "paste": "17/10/2026, 11:20 - Dara: actually I can do sat close now, plans got cancelled",
+    "author": "Dara",
+    "expected": [
+      { "person": "Dara Kim", "kind": "available", "dateFrom": "2026-10-24", "dateTo": "2026-10-24", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": "Close", "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Correction of an earlier refusal ('actually ... now'): kind available, scoped to the Close label on that day."
+  },
+  {
+    "id": "h09",
+    "app": "whatsapp-android",
+    "paste": "10/15/26, 8:03 PM - Mei: max 24 hrs next week pls, and I'm off the 22nd (dentist)",
+    "author": "Mei",
+    "expected": [
+      { "person": "Mei Tanaka", "kind": "max_hours", "dateFrom": null, "dateTo": null, "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": 24 },
+      { "person": "Mei Tanaka", "kind": "unavailable", "dateFrom": "2026-10-22", "dateTo": "2026-10-22", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Cap plus an explicit calendar date in one message. 'Next week' is the rota week so the cap has null dates. US mm/dd Android format."
+  },
+  {
+    "id": "h10",
+    "app": "whatsapp-android",
+    "paste": "18/10/2026, 17:46 - Jo: off on the 23rd - cousin's graduation 🎓",
+    "author": "Jo",
+    "expected": [
+      { "person": "Jo Silva", "kind": "unavailable", "dateFrom": "2026-10-23", "dateTo": "2026-10-23", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Explicit ordinal date with no month; the 23rd falls in the rota week (Fri 23 Oct)."
+  },
+  {
+    "id": "h11",
+    "app": "whatsapp-android",
+    "paste": "10/14/26, 2:11 PM - Kofi: might be busy wknd idk 😬",
+    "author": "Kofi",
+    "expected": [],
+    "expectAsk": true,
+    "note": "Vague: hedged ('might', 'idk'), no firm day or time. Should raise an ask, not guess a constraint. US mm/dd Android format."
+  },
+  {
+    "id": "h12",
+    "app": "whatsapp-android",
+    "paste": "15/10/2026, 22:08 - Ana: happy to pick up extra opens next week if anyone needs cover 😊",
+    "author": "Ana",
+    "expected": [
+      { "person": "Ana Costa", "kind": "prefer", "dateFrom": "2026-10-19", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": "Open", "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Positive preference for a shift label across the whole rota week (same convention as 'every close')."
+  },
+  {
+    "id": "h13",
+    "app": "whatsapp-web",
+    "paste": "[08:47, 16/10/2026] Tom: not free thurs 2pm-5pm, got a delivery coming",
+    "author": "Tom",
+    "expected": [
+      { "person": "Tom Byrne", "kind": "unavailable", "dateFrom": "2026-10-22", "dateTo": "2026-10-22", "timeFrom": "14:00", "timeTo": "17:00", "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Bounded time window on one day, both ends given in 12 h. WhatsApp Web format puts the time before the date."
+  },
+  {
+    "id": "h14",
+    "app": "whatsapp-web",
+    "paste": "[7:12 PM, 10/17/2026] Priya: away 10/23 and 10/24, family thing",
+    "author": "Priya",
+    "expected": [
+      { "person": "Priya Nair", "kind": "unavailable", "dateFrom": "2026-10-23", "dateTo": "2026-10-24", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Numeric US-style dates in the body (10/23 can only be 23 Oct). Two consecutive dates collapse to one range entry."
+  },
+  {
+    "id": "h15",
+    "app": "whatsapp-web",
+    "paste": "[13:05, 17/10/2026] Sam: thanks Lou!! 🙏",
+    "author": "Sam",
+    "expected": [],
+    "expectAsk": false,
+    "note": "Pleasantry with no availability content. No constraint, no ask."
+  },
+  {
+    "id": "h16",
+    "app": "whatsapp-web",
+    "paste": "[22:31, 16/10/2026] Ben: couldn't do last sat sorry",
+    "author": "Ben",
+    "expected": [],
+    "expectAsk": false,
+    "note": "Past reference ('last sat' is 10 Oct, before the rota week). Must not become a Sat 24 constraint and must not ask."
+  },
+  {
+    "id": "h17",
+    "app": "whatsapp-web",
+    "paste": "[09:20, 18/10/2026] Dara: would rather not do closes next week if poss 🙏",
+    "author": "Dara",
+    "expected": [
+      { "person": "Dara Kim", "kind": "prefer_not", "dateFrom": "2026-10-19", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": "Close", "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Soft negative ('would rather not ... if poss') is prefer_not, not unavailable. Applies to every Close in the week."
+  },
+  {
+    "id": "h18",
+    "app": "telegram",
+    "paste": "Kofi Mensah, [14.10.2026 21:09]\nwould rather not work sun if i can help it",
+    "author": "Kofi Mensah",
+    "expected": [
+      { "person": "Kofi Mensah", "kind": "prefer_not", "dateFrom": "2026-10-25", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Telegram Desktop two-line copy format with dotted dates. Soft negative on a single whole day."
+  },
+  {
+    "id": "h19",
+    "app": "telegram",
+    "paste": "Ben Okafor, [15.10.2026 12:30]\ncant do thurs after 6pm and also fri morning till 10am sorry",
+    "author": "Ben Okafor",
+    "expected": [
+      { "person": "Ben Okafor", "kind": "unavailable", "dateFrom": "2026-10-22", "dateTo": "2026-10-22", "timeFrom": "18:00", "timeTo": null, "daily": false, "shiftLabel": null, "value": null },
+      { "person": "Ben Okafor", "kind": "unavailable", "dateFrom": "2026-10-23", "dateTo": "2026-10-23", "timeFrom": null, "timeTo": "10:00", "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Two different time windows on two different days: an 'after' (timeFrom) and a 'till' (timeTo). Adjacent days but different windows, so two entries and not daily."
+  },
+  {
+    "id": "h20",
+    "app": "telegram",
+    "paste": "Jo Silva, [17.10.2026 10:44]\nsomething's come up next week, will tell u when i know more",
+    "author": "Jo Silva",
+    "expected": [],
+    "expectAsk": true,
+    "note": "Vague: no day, no time, explicitly says details to follow. Should ask rather than block the whole week."
+  },
+  {
+    "id": "h21",
+    "app": "telegram",
+    "paste": "Sam Lee, [18.10.2026 09:15]\nscratch that - I can work fri now, appointment got moved",
+    "author": "Sam Lee",
+    "expected": [
+      { "person": "Sam Lee", "kind": "available", "dateFrom": "2026-10-23", "dateTo": "2026-10-23", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Correction without the word 'actually': 'scratch that ... now' reverses an earlier refusal for the whole of Fri 23."
+  },
+  {
+    "id": "h22",
+    "app": "telegram",
+    "paste": "Priya Nair, [16.10.2026 08:31]\nwould love more shifts on sat if there are any 🙏",
+    "author": "Priya Nair",
+    "expected": [
+      { "person": "Priya Nair", "kind": "prefer", "dateFrom": "2026-10-24", "dateTo": "2026-10-24", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Positive preference for a whole day, no shift label."
+  },
+  {
+    "id": "h23",
+    "app": "line",
+    "paste": "2026.10.16 Friday\n17:35\tJo Silva\tcan't do weds or fri before 12, uni labs",
+    "author": "Jo Silva",
+    "expected": [
+      { "person": "Jo Silva", "kind": "unavailable", "dateFrom": "2026-10-21", "dateTo": "2026-10-21", "timeFrom": null, "timeTo": "12:00", "daily": false, "shiftLabel": null, "value": null },
+      { "person": "Jo Silva", "kind": "unavailable", "dateFrom": "2026-10-23", "dateTo": "2026-10-23", "timeFrom": null, "timeTo": "12:00", "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "LINE export format (year-first date header, tab separated). Same time window on two non-consecutive days, so two entries and daily false. 'weds' abbreviation."
+  },
+  {
+    "id": "h24",
+    "app": "line",
+    "paste": "Fri, 10/16/2026\n18:12\tMei Tanaka\toff all next week, visiting family in Tokyo ✈️",
+    "author": "Mei Tanaka",
+    "expected": [
+      { "person": "Mei Tanaka", "kind": "unavailable", "dateFrom": "2026-10-19", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Whole rota week as a single range. LINE export with weekday-first US-style date header."
+  },
+  {
+    "id": "h25",
+    "app": "line",
+    "paste": "2026.10.18 Sunday\n20:03\tTom Byrne\tcan't do tmrw sorry for the short notice",
+    "author": "Tom Byrne",
+    "expected": [
+      { "person": "Tom Byrne", "kind": "unavailable", "dateFrom": "2026-10-19", "dateTo": "2026-10-19", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Relative date: 'tmrw' on Sun 18 Oct is Mon 19 Oct, the first day of the rota week."
+  },
+  {
+    "id": "h26",
+    "app": "line",
+    "paste": "Sat, 10/17/2026\n14:09\tDara Kim\tok actually I can do tues after 4 now, ignore what I said before",
+    "author": "Dara Kim",
+    "expected": [
+      { "person": "Dara Kim", "kind": "available", "dateFrom": "2026-10-20", "dateTo": "2026-10-20", "timeFrom": "16:00", "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Correction with a time window: available (not unavailable) from 16:00 on Tue 20."
+  },
+  {
+    "id": "h27",
+    "app": "plain",
+    "paste": "Ben: can't do sat or sun, sorry!!",
+    "author": "Ben",
+    "expected": [
+      { "person": "Ben Okafor", "kind": "unavailable", "dateFrom": "2026-10-24", "dateTo": "2026-10-25", "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": null }
+    ],
+    "expectAsk": false,
+    "note": "Plain 'Name: text' with no timestamp. Sat and Sun are consecutive so one range entry."
+  },
+  {
+    "id": "h28",
+    "app": "plain",
+    "paste": "4 shifts max next week pls",
+    "author": "Kofi",
+    "expected": [
+      { "person": "Kofi Mensah", "kind": "max_shifts", "dateFrom": null, "dateTo": null, "timeFrom": null, "timeTo": null, "daily": false, "shiftLabel": null, "value": 4 }
+    ],
+    "expectAsk": false,
+    "note": "Bare text with no sender or timestamp in the paste; the author comes only from the author field. Shift-count cap."
+  },
+  {
+    "id": "h29",
+    "app": "plain",
+    "paste": "Jo: maybe? 🤷‍♀️ depends on when my exams are",
+    "author": "Jo",
+    "expected": [],
+    "expectAsk": true,
+    "note": "Vague: conditional on something unknown, no day or time. Should ask."
+  },
+  {
+    "id": "h30",
+    "app": "plain",
+    "paste": "off on the 31st, sorry in advance (halloween!)",
+    "author": "Tom",
+    "expected": [],
+    "expectAsk": false,
+    "note": "Future date outside the rota week (31 Oct). Must not become a rota-week constraint and must not ask."
+  }
+]
