@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import type { ConstraintData, WeekData } from "@/lib/client/api";
 import { sentLabel } from "@/lib/client/describe";
 import { Chip } from "./Chip";
+import { ConstraintEditor } from "./ConstraintEditor";
 
 export interface PasteOutcome {
   app: string;
@@ -116,14 +117,17 @@ export function MessageList({
   fresh,
   onConfirm,
   onReject,
+  onEdited,
   tied,
 }: {
   data: WeekData;
   fresh: Set<string>;
   onConfirm: (id: string) => Promise<void>;
   onReject: (id: string) => Promise<void>;
+  onEdited: (id: string, confirmNow: boolean) => Promise<void>;
   tied: Set<string>;
 }) {
+  const [editing, setEditing] = useState<string | null>(null);
   const byMessage = new Map<string, ConstraintData[]>();
   for (const c of data.constraints) {
     if (!c.messageId) continue;
@@ -150,6 +154,7 @@ export function MessageList({
             key={m.id}
             data-message-id={m.id}
             data-testid="chat-message"
+            tabIndex={-1}
             className={`flex flex-col gap-1.5 rounded bg-paper px-3 pt-2.5 pb-3 shadow-[0_3px_8px_rgba(40,20,5,.3)] ${tied.has(m.id) ? "outline-[3px] outline-string outline-solid" : ""}`}
           >
             <div className="flex justify-between gap-2 text-[13px] text-muted">
@@ -157,10 +162,15 @@ export function MessageList({
               <span>{sentLabel(m.sentAt, data.workspace.timezone)}{m.timestampBasis === "assumed" ? " (assumed)" : ""}</span>
             </div>
             <div className="text-base leading-snug whitespace-pre-line">{m.text}</div>
-            {chips.map((c) => (
-              <Chip key={c.id} c={c} weekStart={data.week.weekStart} fresh={fresh.has(c.id)} readOnly={readOnly}
-                overriddenBy={over.get(c.id) ?? null} onConfirm={onConfirm} onReject={onReject} />
-            ))}
+            {chips.map((c) =>
+              editing === c.id ? (
+                <ConstraintEditor key={c.id} data={data} c={c} onCancel={() => setEditing(null)}
+                  onSaved={async (confirmNow) => { await onEdited(c.id, confirmNow); setEditing(null); }} />
+              ) : (
+                <Chip key={c.id} c={c} weekStart={data.week.weekStart} fresh={fresh.has(c.id)} readOnly={readOnly}
+                  overriddenBy={over.get(c.id) ?? null} onConfirm={onConfirm} onReject={onReject} onEdit={readOnly ? undefined : setEditing} />
+              ),
+            )}
             {chips.length === 0 && !isManager && <span className="text-[13px] text-muted">No constraint in this one.</span>}
           </article>
         );

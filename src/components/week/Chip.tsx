@@ -12,6 +12,7 @@ export function Chip({
   overriddenBy,
   onConfirm,
   onReject,
+  onEdit,
 }: {
   c: ConstraintData;
   weekStart: string;
@@ -20,6 +21,7 @@ export function Chip({
   overriddenBy?: string | null;
   onConfirm: (id: string) => Promise<void>;
   onReject: (id: string) => Promise<void>;
+  onEdit?: (id: string) => void;
 }) {
   const [busy, setBusy] = useState<null | "confirm" | "reject">(null);
   const what = describeConstraint(c, weekStart);
@@ -66,6 +68,11 @@ export function Chip({
         <span className="text-[13px] text-muted">Doesn&rsquo;t change the rota until it becomes a confirmed constraint.</span>
         {!readOnly && (
           <div className="flex flex-wrap gap-2">
+            {onEdit && (
+              <button type="button" onClick={() => onEdit(c.id)} disabled={!!busy} className="min-h-11 rounded-lg border-[1.5px] border-[#8a7a66] bg-paper px-3.5 text-[15px]">
+                Write it myself
+              </button>
+            )}
             <button type="button" onClick={() => act("reject")} disabled={!!busy} className="min-h-11 rounded-lg px-2.5 text-[15px] text-muted underline">
               {busy === "reject" ? "Dismissing…" : "Dismiss"}
             </button>
@@ -95,6 +102,11 @@ export function Chip({
           <button type="button" onClick={() => act("confirm")} disabled={!!busy} className="min-h-11 rounded-lg bg-confirmed px-3.5 text-[15px] font-bold text-white disabled:opacity-70">
             {busy === "confirm" ? "Confirming…" : "Confirm"}
           </button>
+          {onEdit && (
+            <button type="button" onClick={() => onEdit(c.id)} disabled={!!busy} className="min-h-11 rounded-lg border-[1.5px] border-[#8a7a66] bg-paper px-3.5 text-[15px]">
+              Edit
+            </button>
+          )}
           <button type="button" onClick={() => act("reject")} disabled={!!busy} className="min-h-11 rounded-lg px-2.5 text-[15px] text-muted">
             {busy === "reject" ? "Rejecting…" : "Reject"}
           </button>

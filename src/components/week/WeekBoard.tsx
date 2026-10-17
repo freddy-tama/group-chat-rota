@@ -12,6 +12,7 @@ import { UncoveredPanels } from "./Uncovered";
 import { RedStrings, type StringLink } from "./RedStrings";
 import { WhyDrawer } from "./WhyDrawer";
 import { PublishButton, PublishedPanel, type Published } from "./PublishPanel";
+import { ReviewQueue } from "./ReviewQueue";
 
 interface PasteResponse {
   format: { app: string; dateOrder: { value: string; basis: string }; clock: string; warnings: string[]; skipped: unknown[] };
@@ -84,6 +85,36 @@ export function WeekBoard({ weekId }: { weekId: string }) {
     },
     [data, weekId],
   );
+
+  const onEdited = useCallback(
+    async (id: string, confirmNow: boolean) => {
+      if (confirmNow) await api(`/api/constraints/${id}/confirm`, { method: "POST" });
+      const next = await api<WeekData>(`/api/weeks/${weekId}`);
+      setData(next);
+      const { covered, total } = next.solution.coverage;
+      setNotice(confirmNow ? `Saved and confirmed. Rota re-solved: ${covered}/${total} covered.` : "Saved. It still needs confirming before it counts.");
+    },
+    [weekId],
+  );
+
+  const onConfirmAll = useCallback(async () => {
+    const before = data?.solution.coverage.covered;
+    try {
+      const res = await api<{ confirmed: number }>(`/api/weeks/${weekId}/confirm-all`, { body: {} });
+      const next = await api<WeekData>(`/api/weeks/${weekId}`);
+      setData(next);
+      const { covered, total } = next.solution.coverage;
+      setNotice(`Confirmed ${res.confirmed}. Rota re-solved: ${covered}/${total} covered${before != null && before !== covered ? ` (was ${before}/${total})` : ""}.`);
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : "That didn't work. Try again.");
+    }
+  }, [data, weekId]);
+
+  const jumpTo = useCallback((messageId: string) => {
+    const el = document.querySelector<HTMLElement>(`[data-message-id="${messageId}"]`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.focus();
+  }, []);
 
   const links: StringLink[] = useMemo(() => {
     if (!data) return [];
@@ -180,7 +211,8 @@ export function WeekBoard({ weekId }: { weekId: string }) {
       <div ref={boardRef} className="relative mx-auto flex w-full max-w-[1376px] flex-wrap gap-6 px-4 pt-4 pb-6 sm:px-8">
         <aside className="flex max-w-[400px] flex-[1_1_340px] flex-col gap-3.5">
           {data.week.status !== "published" && <PasteBox onPaste={onPaste} />}
-          <MessageList data={data} fresh={fresh} tied={tied} onConfirm={(id) => decide(id, "confirm")} onReject={(id) => decide(id, "reject")} />
+          <ReviewQueue data={data} onConfirmAll={onConfirmAll} onJump={jumpTo} />
+          <MessageList data={data} fresh={fresh} tied={tied} onConfirm={(id) => decide(id, "confirm")} onReject={(id) => decide(id, "reject")} onEdited={onEdited} />
         </aside>
         <section className="flex min-w-0 flex-[999_1_640px] flex-col gap-3">
           {published && <PublishedPanel published={published} />}
