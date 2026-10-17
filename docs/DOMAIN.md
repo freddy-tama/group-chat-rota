@@ -125,12 +125,12 @@ Assignments among Ana, Dara and Sam for the weekday opens and Sunday shifts are 
 
 Pure, synchronous, deterministic TypeScript. Same input → byte-identical output, regardless of the order of input arrays (sort by id internally). No time limits: use a deterministic node budget so results never depend on machine speed.
 
-Hard rules (a rota that breaks one is invalid):
+Hard rules (a rota that breaks one is invalid), in the order blockers report them:
 1. role: the person has the shift's role;
 2. availability: no confirmed unavailability covers the shift (after available-exceptions);
 3. no overlap between a person's shifts;
-4. rest: the gap between the end of one of a person's shifts and the start of their next is at least `minRestHours`, measured in real elapsed hours across days and clock changes;
-5. at most `maxShiftsPerDay` shifts per local start date;
+4. at most `maxShiftsPerDay` shifts per local start date;
+5. rest: the gap between the end of one of a person's shifts and the start of their next is at least `minRestHours`, measured in real elapsed hours across days and clock changes;
 6. weekly hours ≤ effective max hours; weekly shifts ≤ effective max shifts;
 7. pins are kept (a pin that breaks a hard rule is reported as a violation, never silently dropped).
 
@@ -140,6 +140,6 @@ Objective, lexicographic:
 3. minimise the fairness penalty: the spread of less-wanted shifts (closes, weekend shifts, night bakes), counting the last 3 weeks of history;
 4. tie-break: shifts in chronological order (then id), candidates by staff id.
 
-For every uncovered shift, return one blocker per staff member holding the role, with the first hard rule that stops them taking it in the final rota (in the order above), the quote if a constraint is the reason, and their current hours if the cap is.
+For every uncovered shift, return one blocker per staff member holding the role, with the first hard rule that stops them taking it in the final rota (in the order above; role is summarised as a count), the quote if a constraint is the reason, and their current hours if the cap is.
 
 The **checker** (`verifyRota`) is separate code that recomputes every hard rule from the assignments alone. The API returns its result as `violations`. It must not import the solver's internals.
