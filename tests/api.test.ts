@@ -194,6 +194,39 @@ describe("Pasting the chat: the confirm gate", () => {
     expect(c.body.solution.assignments.find((a: { shiftId: string }) => a.shiftId === sh18.id).staffId).toBe(ana.id);
   });
 
+  it("writing a vague message yourself: Dara off all weekend leaves Sat Open with no key holder", async () => {
+    const d = await newDemo();
+    const r = await call(paste, { token: d.token, body: { text: "[18/10/2026, 22:10:15] Dara: might be busy weekend idk", consent: true }, params: { id: d.weekId } });
+    expect(r.status).toBe(201);
+    const item = r.body.constraints[0];
+    expect(item.status).toBe("ask");
+    // An Ask item can't be confirmed as it stands.
+    expect((await call(confirm, { method: "POST", token: d.token, params: { id: item.id } })).status).toBe(422);
+    const w = (await call(getWeek, { token: d.token, params: { id: d.weekId } })).body;
+    expect(w.counts.ask).toBe(1);
+    const dara = w.staff.find((s: { name: string }) => s.name === "Dara Kim");
+    const edited = await call(patchConstraint, {
+      method: "PATCH", token: d.token, params: { id: item.id },
+      body: { staffId: dara.id, kind: "unavailable", dateFrom: "2026-10-24", dateTo: "2026-10-25", timeFrom: null, timeTo: null, shiftLabel: null },
+    });
+    expect(edited.status).toBe(200);
+    expect(edited.body.constraint.status).toBe("proposed");
+    const c = await call(confirm, { method: "POST", token: d.token, params: { id: item.id } });
+    expect(c.status).toBe(200);
+    const sol = c.body.solution;
+    expect(sol.violations).toEqual([]);
+    const sh15 = w.shifts.find((s: { key: string }) => s.key === "sh_15");
+    const gap = sol.uncovered.find((u: { shiftId: string }) => u.shiftId === sh15.id);
+    expect(gap).toBeTruthy();
+    expect(gap.blockers.find((b: { staffId: string }) => b.staffId === dara.id).reason).toBe("unavailable");
+    expect(sol.coverage.covered).toBeLessThan(21);
+    expect(sol.assignments.some((a: { staffId: string; shiftId: string }) => a.staffId === dara.id && w.shifts.find((s: { id: string; localDate: string }) => s.id === a.shiftId).localDate >= "2026-10-24")).toBe(false);
+    const after = (await call(getWeek, { token: d.token, params: { id: d.weekId } })).body;
+    expect(after.counts.ask).toBe(0);
+    expect(sol.coverage).toEqual({ covered: 20, total: 22 });
+    expect(sol.uncovered.map((u: { shiftId: string }) => w.shifts.find((s: { id: string }) => s.id === u.shiftId).key).sort()).toEqual(["sh_15", "sh_18"]);
+  });
+
   it("rejects an edit outside the rota week (422) and confirm-all only confirms complete items", async () => {
     const d = await newDemo();
     const r = await call(paste, { token: d.token, body: { text: "Jo: can't do mon either", consent: true }, params: { id: d.weekId } });
