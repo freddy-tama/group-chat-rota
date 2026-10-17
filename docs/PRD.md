@@ -46,6 +46,8 @@ A web app for managers of small teams (cafés, bars, shops, clinics, volunteer g
 8. **Copy formats are read before the AI:** paste a WhatsApp Android US export line such as `10/18/26, 9:30 PM - Ana: actually I can do sat close now` (consent ticked). The status line says "Read as WhatsApp (Android export) · dates month/day (detected)".
 9. **Accounts:** register with a new email and an 8+ character password; you land on your own copy of the café board. Signing in with a wrong password shows "Email or password is wrong."
 10. **Bad links:** `/week/<random id>` shows "This rota isn't here".
+11. **Publish and paste back:** on a fresh demo click **Publish rota**. A dialog asks "Publish the week of Mon 19 Oct?" and lists "21/22 shifts covered; 1 still open." Click **Publish rota** in the dialog. The board shows a **Published** badge and the note "Published. The rota is locked and everyone has a private link."; the paste box is gone. A panel "Published. Paste this back into the group" shows the reply for the group chat: it starts "📋 Rota for w/c Mon 19 Oct is up", has one line per day (e.g. "Sat 24 Oct: Open Dara …"), and ends the gaps with "⚠️ Still need a key holder for Sat 24 Oct Close (14:00–22:00). Can anyone help?". Below it are **9 private links**, one per person ("Open Priya's shifts"). After a reload the board is still published with the same panel.
+12. **A staff member's link:** open Priya's private link. The page "Priya's shifts" shows **25.0 h** and "3 shifts", her three Night bake cards, and on Sat 24 Oct "9.0 h · clocks go back at 02:00, so this shift is an hour longer". A "Fairness receipt" reads "Checked against House rules v3" and "21/22 shifts covered this week". No one else's shifts appear. A changed link such as `/s/shr_wrong` shows "This link doesn't work".
 
 ## API (base path `/api`, JSON, `Authorization: Bearer <token>`)
 
@@ -61,6 +63,8 @@ Full schema: `GET /api/openapi.json`.
 - `POST /api/weeks/{weekId}/confirm-all` → 200, confirms every complete proposed constraint.
 - `GET /api/weeks/{weekId}/shifts/{shiftId}/why` → who is on the shift, their rest either side, and each other person's blocking rule.
 - `PATCH /api/staff/{id}` `{maxHours}`: −5 → 422.
+- `POST /api/weeks/{weekId}/publish` → **201** `{receipt, shareLinks, chatBack}`: `receipt` has `covered = 21`, `total = 22`, `shortRestGaps = 0`, `violations = 0`, `rulePack = "House rules v3"`; `shareLinks` has 9 entries with URLs containing `/s/shr_`; `chatBack` contains "Rota for w/c Mon 19 Oct is up". Publishing again → 409. Once published, solve, paste and confirm on that week → 409. `GET /api/weeks/{weekId}/publish` → 200 with the same links.
+- `GET /api/share/{token}` (no auth; the token is the credential) → 200 with that person's `staff`, `shifts` and `totals` only; Priya: 3 Night bakes, `totals.hours = 25`, the Sat 24 Oct one with `hours = 9` and `crossesClockChange = true`. A changed token → 404. A share token used as a Bearer token on manager endpoints → 403.
 - `DELETE /api/workspaces/{id}` → 204, then `GET /api/workspaces/{id}` → 404.
 - **Security:** no token → 401; a forged or tampered JWT → 401; another workspace's week, constraint or staff id → 404.
 - `POST /api/parse-chat` `{text, timezone}` (no auth): how a paste is read, e.g. an Android US line gives `app = "whatsapp-android"`, `dateOrder.value = "mdy"`; an unknown time zone → 422.
