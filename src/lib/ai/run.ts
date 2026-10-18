@@ -14,6 +14,7 @@ export interface AiResult {
   output: ModelOutput | null;
   error: string | null;
   latencyMs: number;
+  costUsd: number; // what the provider charged for this message, failed attempts included
 }
 
 interface Fixture {
@@ -53,6 +54,37 @@ export function aiModel(provider: AiProvider | null = aiProvider()): string | nu
   return process.env.AI_MODEL || DEFAULT_MODEL[provider];
 }
 
+// US dollars per million tokens, from the providers' published prices (October 2026).
+// AI_PRICE_IN_PER_MTOK / AI_PRICE_OUT_PER_MTOK override them; an unknown model is priced high
+// so the budget cap errs on the safe side.
+const PRICES: Record<string, { in: number; out: number }> = {
+  "claude-haiku-5-5": { in: 0.1, out: 0.5 },
+  "deepseek/deepseek-v4-flash": { in: 0.091, out: 0.182 },
+};
+const UNKNOWN_PRICE = { in: 15, out: 75 };
+const MAX_OUTPUT_TOKENS = 1500;
+const ATTEMPTS = 2;
+
+function priceFor(model: string): { in: number; out: number } {
+  const envIn = Number(process.env.AI_PRICE_IN_PER_MTOK);
+  const envOut = Number(process.env.AI_PRICE_OUT_PER_MTOK);
+  if (envIn > 0 && envOut > 0) return { in: envIn, out: envOut };
+  const known = Object.keys(PRICES).find((k) => model === k || model.startsWith(`${k}-`));
+  return known ? PRICES[known] : UNKNOWN_PRICE;
+}
+
+export function costUsd(model: string, inputTokens: number, outputTokens: number): number {
+  const p = priceFor(model);
+  return (inputTokens * p.in + outputTokens * p.out) / 1_000_000;
+}
+
+/** The most one message can cost: generous input estimate, full output, every attempt. */
+export function worstCaseUsd(model: string, ctx: ExtractContext, msg: ExtractMessage): number {
+  const chars = SYSTEM_PROMPT.length + buildUserPrompt(ctx, msg).length + JSON.stringify(MODEL_OUTPUT_JSON_SCHEMA).length;
+  const inputTokens = Math.ceil(chars / 2) + 1000; // real text runs nearer 4 characters a token
+  return ATTEMPTS * costUsd(model, inputTokens, MAX_OUTPUT_TOKENS);
+}
+
 export function lookupFixture(key: string): Fixture | null {
   return FIXTURES[key] ?? null;
 }
@@ -61,8 +93,14 @@ class CallFailed extends Error {}
 
 const TOOL_NAME = "record_constraints";
 
-/** One model call. Returns the parsed JSON answer and the model that produced it. */
-async function callModel(provider: AiProvider, model: string, ctx: ExtractContext, msg: ExtractMessage): Promise<{ json: unknown; model: string }> {
+interface ModelReply {
+  answer: unknown; // undefined when the reply held no readable JSON
+  model: string;
+  costUsd: number;
+}
+
+/** One model call: the answer, the model that produced it, and what it cost. */
+async function callModel(provider: AiProvider, model: string, ctx: ExtractContext, msg: ExtractMessage): Promise<ModelReply> {
   const user = buildUserPrompt(ctx, msg);
   const signal = AbortSignal.timeout(25_000);
   if (provider === "anthropic") {
@@ -77,7 +115,7 @@ async function callModel(provider: AiProvider, model: string, ctx: ExtractContex
       },
       body: JSON.stringify({
         model,
-        max_tokens: 1500,
+        max_tokens: MAX_OUTPUT_TOKENS,
         temperature: 0,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: user }],
@@ -86,10 +124,14 @@ async function callModel(provider: AiProvider, model: string, ctx: ExtractContex
       }),
     });
     if (!res.ok) throw new CallFailed(await failure(provider, res));
-    const body = (await res.json()) as { model?: string; content?: { type: string; name?: string; input?: unknown }[] };
+    const body = (await res.json()) as {
+      model?: string;
+      content?: { type: string; name?: string; input?: unknown }[];
+      usage?: { input_tokens?: number; output_tokens?: number };
+    };
     const call = body.content?.find((b) => b.type === "tool_use" && b.name === TOOL_NAME);
-    if (!call) throw new CallFailed("The model didn't return an answer");
-    return { json: call.input, model: body.model ?? model };
+    const cost = costUsd(model, body.usage?.input_tokens ?? 0, body.usage?.output_tokens ?? MAX_OUTPUT_TOKENS);
+    return { answer: call?.input, model: body.model ?? model, costUsd: cost };
   }
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -103,7 +145,8 @@ async function callModel(provider: AiProvider, model: string, ctx: ExtractContex
     body: JSON.stringify({
       model,
       temperature: 0,
-      max_tokens: 1500,
+      max_tokens: MAX_OUTPUT_TOKENS,
+      usage: { include: true },
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: user },
@@ -112,9 +155,23 @@ async function callModel(provider: AiProvider, model: string, ctx: ExtractContex
     }),
   });
   if (!res.ok) throw new CallFailed(await failure(provider, res));
-  const body = (await res.json()) as { choices?: { message?: { content?: string } }[]; model?: string };
+  const body = (await res.json()) as {
+    choices?: { message?: { content?: string } }[];
+    model?: string;
+    usage?: { prompt_tokens?: number; completion_tokens?: number; cost?: number };
+  };
+  // OpenRouter reports the charge itself when asked; otherwise price the tokens.
+  const cost = typeof body.usage?.cost === "number"
+    ? body.usage.cost
+    : costUsd(model, body.usage?.prompt_tokens ?? 0, body.usage?.completion_tokens ?? MAX_OUTPUT_TOKENS);
   const content = body.choices?.[0]?.message?.content ?? "";
-  return { json: JSON.parse(content.replace(/^```(?:json)?\s*|\s*```$/g, "")), model: body.model ?? model };
+  let answer: unknown;
+  try {
+    answer = JSON.parse(content.replace(/^```(?:json)?\s*|\s*```$/g, ""));
+  } catch {
+    answer = undefined;
+  }
+  return { answer, model: body.model ?? model, costUsd: cost };
 }
 
 /** Logs the provider's reason server-side; the manager sees only the status. */
@@ -124,7 +181,7 @@ async function failure(provider: AiProvider, res: Response): Promise<string> {
   return `Model call failed (${res.status})`;
 }
 
-export async function runExtraction(ctx: ExtractContext, msg: ExtractMessage, opts: { allowLive: boolean }): Promise<AiResult> {
+export async function runExtraction(ctx: ExtractContext, msg: ExtractMessage, opts: { allowLive: boolean; blockedReason?: string }): Promise<AiResult> {
   const key = fixtureKey(msg);
   const started = Date.now();
   const fixture = lookupFixture(key);
@@ -132,35 +189,41 @@ export async function runExtraction(ctx: ExtractContext, msg: ExtractMessage, op
     const parsed = ModelOutput.safeParse(fixture.output);
     return {
       key, source: "replay", model: fixture.model, output: parsed.success ? parsed.data : null,
-      error: parsed.success ? null : "Replay fixture does not match the schema", latencyMs: Date.now() - started,
+      error: parsed.success ? null : "Replay fixture does not match the schema", latencyMs: Date.now() - started, costUsd: 0,
     };
   }
   const provider = aiProvider();
   if (aiMode() !== "live" || !opts.allowLive || !provider) {
     const why = aiMode() !== "live"
       ? "AI is in replay mode here and has no recording for this message."
-      : !provider ? "No AI key is configured." : "This workspace has used its AI quota for the hour.";
-    return { key, source: "none", model: null, output: null, error: why, latencyMs: 0 };
+      : !provider ? "No AI key is configured." : opts.blockedReason ?? "This workspace has used its AI quota for the hour.";
+    return { key, source: "none", model: null, output: null, error: why, latencyMs: 0, costUsd: 0 };
   }
 
   const model = aiModel(provider)!;
   let lastError = "";
-  for (let attempt = 0; attempt < 2; attempt++) {
+  let spent = 0;
+  for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
     try {
-      const answer = await callModel(provider, model, ctx, msg);
-      const parsed = ModelOutput.safeParse(answer.json);
+      const reply = await callModel(provider, model, ctx, msg);
+      spent += reply.costUsd;
+      if (reply.answer === undefined) {
+        lastError = "The model's answer was not valid JSON";
+        continue;
+      }
+      const parsed = ModelOutput.safeParse(reply.answer);
       if (!parsed.success) {
         lastError = "The model's answer did not match the schema";
         continue;
       }
-      return { key, source: "live", model: answer.model, output: parsed.data, error: null, latencyMs: Date.now() - started };
+      return { key, source: "live", model: reply.model, output: parsed.data, error: null, latencyMs: Date.now() - started, costUsd: spent };
     } catch (err) {
       lastError = err instanceof CallFailed ? err.message
         : err instanceof Error && err.name === "TimeoutError" ? "The model took too long"
-        : "The model's answer was not valid JSON";
+        : "The model call failed";
     }
   }
-  return { key, source: "none", model, output: null, error: lastError, latencyMs: Date.now() - started };
+  return { key, source: "none", model, output: null, error: lastError, latencyMs: Date.now() - started, costUsd: spent };
 }
 
 /** Run several messages with a small concurrency limit, preserving order. */
