@@ -1,4 +1,4 @@
-import { pgTable, text, integer, real, boolean, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, bigint, real, boolean, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 // One workspace = one team (a café, a bar, a clinic). Every row below carries workspace_id, and
 // every query is scoped by the signed-in owner, so one workspace can never read another's data.
@@ -140,6 +140,14 @@ export const fairnessHistory = pgTable("fairness_history", {
 });
 
 /** Every model call (live or replayed), for rate limits and for recording replay fixtures. */
+// Live AI spend, site-wide: one "total" row plus one row per UTC day ("2026-10-23").
+// Deliberately not tied to a workspace, so deleting workspaces can't reset it.
+export const aiBudget = pgTable("ai_budget", {
+  bucket: text("bucket").primaryKey(),
+  liveCalls: integer("live_calls").notNull().default(0),
+  costMicros: bigint("cost_micros", { mode: "number" }).notNull().default(0), // millionths of a US dollar
+});
+
 export const aiCalls = pgTable("ai_calls", {
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id").notNull().references(() => workspaces.id, { onDelete: "cascade" }),

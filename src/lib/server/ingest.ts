@@ -5,9 +5,10 @@ import type { Db } from "@/lib/db/client";
 import * as t from "@/lib/db/schema";
 import { preparseChat, redactForModel, type PreparseResult } from "@/lib/chat/preparse";
 import { instantToLocalDate, instantToLocalTime } from "@/lib/domain/time";
-import { resolveOutput, resolvePerson, type ExtractContext, type ExtractMessage, type ProposedRow } from "@/lib/ai/extract";
-import { aiMode, runAll, runExtraction, type AiResult } from "@/lib/ai/run";
+import { fixtureKey, resolveOutput, resolvePerson, type ExtractContext, type ExtractMessage, type ProposedRow } from "@/lib/ai/extract";
+import { aiMode, aiModel, lookupFixture, runAll, runExtraction, worstCaseUsd, type AiResult } from "@/lib/ai/run";
 import { PROMPT_VERSION } from "@/lib/ai/schema";
+import { reserveBudget, settleBudget } from "./budget";
 import { ApiError } from "./http";
 import { constraintView, loadWeek, solveBundle, type WeekBundle } from "./week";
 
@@ -19,6 +20,11 @@ export const PasteBody = z.object({
 
 const MAX_MESSAGES = 60;
 const LIVE_CALLS_PER_HOUR = 120;
+const HOUR_LIMIT_REASON = "This workspace has used its AI quota for the hour.";
+const BUDGET_REASON = {
+  total: "The live demo has used its AI budget. Write this one yourself.",
+  day: "The live demo has used today's AI budget (it resets at midnight UTC). Write this one yourself.",
+} as const;
 
 export function extractContext(bundle: WeekBundle, dateOrder: "dmy" | "mdy" | "ymd"): ExtractContext {
   return {
@@ -52,7 +58,6 @@ export async function ingestPaste(db: Db, userId: string, weekId: string, input:
     .select({ live: sql<number>`count(*)::int` })
     .from(t.aiCalls)
     .where(and(eq(t.aiCalls.workspaceId, bundle.workspace.id), eq(t.aiCalls.mode, "live"), gt(t.aiCalls.createdAt, hourAgo)));
-  let liveBudget = LIVE_CALLS_PER_HOUR - live;
 
   const batchId = randomUUID();
   const items = parsed.messages.map((m, i) => {
@@ -64,12 +69,25 @@ export async function ingestPaste(db: Db, userId: string, weekId: string, input:
     return { parsed: m, msg, redactions: redacted.redactions, id: randomUUID() };
   });
 
-  const results: AiResult[] = await runAll(items, 4, async (item) => {
-    const allowLive = liveBudget > 0;
-    const r = await runExtraction(ctx, item.msg, { allowLive });
-    if (r.source === "live") liveBudget--;
-    return r;
+  // Decide up front which messages may call the model: the first ones without a recording, up to
+  // this workspace's hourly quota and whatever the site-wide dollar budget can still cover.
+  const model = aiMode() === "live" ? aiModel() : null;
+  const needsLive = items.map((item) => !!model && !lookupFixture(fixtureKey(item.msg)));
+  const hourLeft = Math.max(0, LIVE_CALLS_PER_HOUR - live);
+  const asking = items.filter((_, i) => needsLive[i]).slice(0, hourLeft);
+  const reservation = await reserveBudget(db, asking.map((item) => worstCaseUsd(model!, ctx, item.msg)));
+  let order = 0;
+  const permits = needsLive.map((need) => {
+    if (!need) return { allowLive: true };
+    const n = order++;
+    if (n < reservation.granted) return { allowLive: true };
+    if (n >= hourLeft) return { allowLive: false, blockedReason: HOUR_LIMIT_REASON };
+    return { allowLive: false, blockedReason: BUDGET_REASON[reservation.stoppedBy ?? "total"] };
   });
+
+  // If the run throws, the reservation stays spent: the cap errs on the safe side.
+  const results: AiResult[] = await runAll(items, 4, (item, i) => runExtraction(ctx, item.msg, permits[i]));
+  await settleBudget(db, reservation, results.reduce((sum, r) => sum + r.costUsd, 0));
 
   const now = Date.now();
   const messageRows = items.map((item, i) => ({

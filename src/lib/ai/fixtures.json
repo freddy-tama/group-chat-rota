@@ -1,1 +1,768 @@
-{}
+{
+  "e1c45d0e56b6dcfb53bf0a9695b67f6ffed2d99551d298c43ecc8e48631d5308": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Ana Costa",
+          "kind": "available",
+          "days": [
+            "sat"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": "Close",
+          "value": null,
+          "quote": "actually I can do sat close now",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "b435a2896cd1c64ad3b8f0e0c926c5784f31ac45a6155e5c817cc58e4c24286b": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": {
+        "reason": "Dara says she might be busy at the weekend but gives no specific days, times, or shifts.",
+        "question": "Hi Dara, could you say which weekend days or shifts you can't do (e.g. Sat Kitchen or Sun Brunch), or whether it's a full-day or time-of-day thing? That way we can plan the Sat and Sun rota around it."
+      }
+    }
+  },
+  "bd8e1162c8b357376d77bc4243554d144b806fa43f3f887ad9258fd69433e689": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Jo Silva",
+          "kind": "unavailable",
+          "days": [
+            "mon"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "can't do mon either",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "608fda18ea59325fb0cd07630569bf11a60c606d2971ee3588524c3c0f89537d": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Ana Costa",
+          "kind": "unavailable",
+          "days": [
+            "tue"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "cant do tues + thurs",
+          "confidence": "high"
+        },
+        {
+          "person": "Ana Costa",
+          "kind": "unavailable",
+          "days": [
+            "thu"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "cant do tues + thurs",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "f1cdd7605c54c8a9c873e5304d3521ba94fceae3235c3fd69706958db63162a0": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Jo Silva",
+          "kind": "unavailable",
+          "days": [
+            "mon"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "Jo can't do mon",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "f03e596e4e114a126bd937d835cb022ea911fa3a3d152a10004656ba2256f53c": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Mei Tanaka",
+          "kind": "unavailable",
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": "19:00",
+          "to": "22:00",
+          "shift": null,
+          "value": null,
+          "quote": "no work after 7pm mon-thurs pls",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "13c3286b54fdc2d176c569ddc7bb3b9c92f2ddd8d97796dbb4ea84a7c4004588": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Tom Byrne",
+          "kind": "max_hours",
+          "days": [],
+          "dates": [],
+          "allWeek": true,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": 20,
+          "quote": "20 hrs max pls",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "23e3f9e97e94530a9a5c77a4f7b8750c2ccb2b27fa194b4d83ff659da4d8bd97": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Sam Lee",
+          "kind": "unavailable",
+          "days": [
+            "sun"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "off sun",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "0d26aedb2c6b66b22029cb01b690415ba6274fe26008fafccf28ce067159812f": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": null
+    }
+  },
+  "5899c62c63b23693cf50134ce9563b99f575897b06e9cc8e60038ff24785ba46": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Priya",
+          "kind": "prefer",
+          "days": [
+            "fri"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": "Night bake",
+          "value": null,
+          "quote": "I can do the night bake fri",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "13cda9a6490eb160b93e2544b1e15e99e94fb5b641cd13760b7e2e6df8834f91": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Dara",
+          "kind": "available",
+          "days": [
+            "sat"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": "Close",
+          "value": null,
+          "quote": "actually I can do sat close now",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "fa2a00aba15f739a982f1ebdea9ceec51741059b0cbe84518003dfdfd5501028": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Mei",
+          "kind": "max_hours",
+          "days": [],
+          "dates": [],
+          "allWeek": true,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": 24,
+          "quote": "max 24 hrs next week pls",
+          "confidence": "high"
+        },
+        {
+          "person": "Mei",
+          "kind": "unavailable",
+          "days": [],
+          "dates": [
+            "22nd"
+          ],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "I'm off the 22nd (dentist)",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "a4c55428d23f27d85b9ff7b88a00588260a9d3ce6878d29017429bbd59e84b74": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Jo Silva",
+          "kind": "unavailable",
+          "days": [],
+          "dates": [
+            "23/10"
+          ],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "off on the 23rd",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "3ec01ed1bf4201d2fa5ef96f878983e256455578648cead5a6bd9ba5824935f1": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": {
+        "reason": "Kofi says he might be busy at the weekend, but it's too vague to tell which days or shifts are affected.",
+        "question": "Hi Kofi, could you confirm which weekend shifts you can't do next week (Sat and/or Sun, and whether it's the whole day or certain times)?"
+      }
+    }
+  },
+  "11abef79277a5f5f9be217bd6e286ad57d1ef761f5e818a4dc9d19171d8a6827": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Ana Costa",
+          "kind": "prefer",
+          "days": [],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": "Open",
+          "value": null,
+          "quote": "happy to pick up extra opens next week",
+          "confidence": "medium"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "49d0b43e7b3a35722265a0b2430881eaf7a5a2768898506a1cb0606fe171de58": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Tom Byrne",
+          "kind": "unavailable",
+          "days": [
+            "thu"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": "14:00",
+          "to": "17:00",
+          "shift": null,
+          "value": null,
+          "quote": "not free thurs 2pm-5pm",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "7f6d6f5127fa48129f6609a256afc2d87760604fc15303e2eb6ab6d50094ff96": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Priya",
+          "kind": "unavailable",
+          "days": [],
+          "dates": [
+            "10/23",
+            "10/24"
+          ],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "away 10/23 and 10/24, family thing",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "65f0fea8c5c23014676fa254f22e1eada64747847b4593cb082663494494fc3e": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": null
+    }
+  },
+  "24bf46facd95958e1c462bca7287d10a539f396375b6d36537dc8939e33eb1b6": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": {
+        "reason": "Ben's message refers to 'last sat', which is before the rota week (Mon 19 Oct to Sun 25 Oct), so it does not affect next week's rota.",
+        "question": "Hi Ben, thanks for letting us know. That was last Saturday, so it doesn't affect next week's rota. If you have any availability limits for 19-25 Oct, could you post them here?"
+      }
+    }
+  },
+  "a062f4ad9cf37575c02bb2df1b063b2ae6018125a33ad8f67e2e3a93fbd966a0": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Dara Kim",
+          "kind": "prefer_not",
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+          ],
+          "dates": [],
+          "allWeek": true,
+          "from": null,
+          "to": null,
+          "shift": "Close",
+          "value": null,
+          "quote": "would rather not do closes next week if poss",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "dfd1e0acbd99d95a28db93a532bf7170686d760bf6a0d1283b30fa6c52954285": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Kofi Mensah",
+          "kind": "prefer_not",
+          "days": [
+            "sun"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "would rather not work sun",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "fe1e02e1982123382a4803c3d9cb899be639a374bc011e81b331692dd1c5dffd": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Ben Okafor",
+          "kind": "unavailable",
+          "days": [
+            "thu"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": "18:00",
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "cant do thurs after 6pm",
+          "confidence": "high"
+        },
+        {
+          "person": "Ben Okafor",
+          "kind": "unavailable",
+          "days": [
+            "fri"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": "10:00",
+          "shift": null,
+          "value": null,
+          "quote": "fri morning till 10am",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "de8c11d7d3d087eb74df2b1c6745a8c1aba1f99b251e732557c599b6a2a21cfc": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": {
+        "reason": "Jo says something has come up next week but gives no days, shifts, or times, so it can't be turned into a constraint yet.",
+        "question": "Hi Jo, thanks for letting us know. Could you let us know which days or shifts next week (19-25 Oct) are affected once you know more? Thanks!"
+      }
+    }
+  },
+  "56bb2aa59bfce3abaf65dc624b591dec39ef80f0224ea6f478acfde16015cc04": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Sam Lee",
+          "kind": "available",
+          "days": [
+            "fri"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "I can work fri now",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "46a044c3e208e76e3bac662e81a82150aed239d988f1de90a493257f697a0610": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Priya Nair",
+          "kind": "prefer",
+          "days": [
+            "sat"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "would love more shifts on sat if there are any",
+          "confidence": "medium"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "b5ef04d197f9f389389db0f21a25f49e0b9c71e8dd483f128d3d041e3a5a39eb": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Jo Silva",
+          "kind": "unavailable",
+          "days": [
+            "wed"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "can't do weds",
+          "confidence": "high"
+        },
+        {
+          "person": "Jo Silva",
+          "kind": "unavailable",
+          "days": [
+            "fri"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": "00:00",
+          "to": "12:00",
+          "shift": null,
+          "value": null,
+          "quote": "fri before 12",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "ffafaad5be9191e0bd2b3dc363da444a5fe50f85813aa9a6ab8ddaf5135e5058": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Mei Tanaka",
+          "kind": "unavailable",
+          "days": [
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat",
+            "sun"
+          ],
+          "dates": [],
+          "allWeek": true,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "off all next week",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "06c5a9de2a4c2f613acbc2de8aea6fb09509693701c4c953f2aa0a95b801822d": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Tom Byrne",
+          "kind": "unavailable",
+          "days": [
+            "mon"
+          ],
+          "dates": [
+            "19/10"
+          ],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "can't do tmrw",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "0f3dd30937e2cf33ea87b965011a4f717017f0d33ec4bb6a3b7dfb23c0c6771d": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Dara Kim",
+          "kind": "available",
+          "days": [
+            "tue"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": "16:00",
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "I can do tues after 4 now",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "40856804b69aeb89ac700506f4bfc9addf7cee6ea2e8146bb2f98bd4cb719752": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Ben",
+          "kind": "unavailable",
+          "days": [
+            "sat",
+            "sun"
+          ],
+          "dates": [],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "can't do sat or sun",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "f91bbc3cc64a004af0ad4f86916880a2f66e20e63e930cd5420bb2c24ec7b96c": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Kofi",
+          "kind": "max_shifts",
+          "days": [],
+          "dates": [],
+          "allWeek": true,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": 4,
+          "quote": "4 shifts max next week",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  },
+  "9c865154700bc81f1aa3001e33002a4142f631dfc5252c28dd329c43db034248": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [],
+      "ask": {
+        "reason": "Jo's message hints at possible unavailability depending on exam dates, but it is too vague to act on and names no days or shifts.",
+        "question": "Hi Jo, thanks for flagging! Could you let us know which days or shifts you can't do next week (Mon 19 to Sun 25 Oct), and the times if it's only part of a day? That way we can plan the rota around your exams."
+      }
+    }
+  },
+  "f2aa779e9f8f218397d8b5ad5a673346bd69f70cf8e535ae39cc87c4f2345ed4": {
+    "model": "claude-haiku-5-5",
+    "recordedAt": "2026-10-18T12:06:30.171Z",
+    "output": {
+      "constraints": [
+        {
+          "person": "Tom Byrne",
+          "kind": "unavailable",
+          "days": [],
+          "dates": [
+            "31/10"
+          ],
+          "allWeek": false,
+          "from": null,
+          "to": null,
+          "shift": null,
+          "value": null,
+          "quote": "off on the 31st",
+          "confidence": "high"
+        }
+      ],
+      "ask": null
+    }
+  }
+}
