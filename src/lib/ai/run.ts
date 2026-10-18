@@ -115,8 +115,7 @@ async function callModel(provider: AiProvider, model: string, ctx: ExtractContex
       },
       body: JSON.stringify({
         model,
-        max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: 0,
+        max_tokens: MAX_OUTPUT_TOKENS, // no temperature: Haiku 5.5 rejects it; replays keep tests repeatable
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: user }],
         tools: [{ name: TOOL_NAME, description: "Record the constraints found in the message, or what to ask.", input_schema: MODEL_OUTPUT_JSON_SCHEMA }],

@@ -97,7 +97,8 @@ describe("calling Anthropic", () => {
     expect(headers["x-api-key"]).toBe("test-anthropic");
     expect(headers["anthropic-version"]).toBe("2023-06-01");
     const body = JSON.parse(String(calls[0].init.body));
-    expect(body).toMatchObject({ model: "claude-haiku-5-5", temperature: 0, tool_choice: { type: "tool", name: "record_constraints" } });
+    expect(body).toMatchObject({ model: "claude-haiku-5-5", tool_choice: { type: "tool", name: "record_constraints" } });
+    expect(body).not.toHaveProperty("temperature"); // the live API rejects it for Haiku 5.5 (400)
     expect(body.tools[0].input_schema.required).toEqual(["constraints", "ask"]);
     expect(body.messages[0].content).toContain("test-only: can do sat close now");
   });
