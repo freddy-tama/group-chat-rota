@@ -5,7 +5,7 @@
 - Model: claude-haiku-5-5 · prompt version `x1` (unchanged since before the set was written; not tuned on it).
 - Run: 2026-10-18 12:06 UTC against https://group-chat-rota.vercel.app. 30 cases called the model live, 0 replayed recorded answers.
 - Live spend for this run: $0.0105.
-- Rerun: `node scripts/eval.mjs <url>`. Recorded answers replay first, so a rerun reproduces these numbers.
+- Rerun: `node scripts/eval.mjs <url>`. Recorded answers replay first, so timestamped cases reproduce exactly. A paste with no timestamp (the plain cases) is stamped with the time it is pasted, which is part of its recording key, so those cases call the model again.
 - h28 and h30 are bare text whose sender is given only in the case's `author` field. The app needs a name on each line (a bare paste gets "No chat messages found"), so these were sent as `Author: text`.
 
 ## Misses
