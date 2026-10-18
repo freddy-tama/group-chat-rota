@@ -1,0 +1,452 @@
+{
+  "base": "https://group-chat-rota.vercel.app",
+  "ranAt": "2026-10-18T12:06:30.171Z",
+  "model": [
+    "claude-haiku-5-5"
+  ],
+  "promptVersion": "x1",
+  "passed": 26,
+  "total": 30,
+  "results": [
+    {
+      "id": "h01",
+      "app": "whatsapp-ios",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h02",
+      "app": "whatsapp-ios",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h03",
+      "app": "whatsapp-ios",
+      "pass": false,
+      "missing": [
+        "[\"Mei Tanaka\",\"unavailable\",\"2026-10-19\",\"2026-10-22\",\"19:00\",null,true,null,null]"
+      ],
+      "extra": [
+        "[\"Mei Tanaka\",\"unavailable\",\"2026-10-19\",\"2026-10-22\",\"19:00\",\"22:00\",true,null,null]"
+      ],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h04",
+      "app": "whatsapp-ios",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h05",
+      "app": "whatsapp-ios",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h06",
+      "app": "whatsapp-ios",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-ios"
+    },
+    {
+      "id": "h07",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h08",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h09",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h10",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h11",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": true,
+      "gotAsk": true,
+      "askReasons": [
+        "Kofi says he might be busy at the weekend, but it's too vague to tell which days or shifts are affected."
+      ],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h12",
+      "app": "whatsapp-android",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-android"
+    },
+    {
+      "id": "h13",
+      "app": "whatsapp-web",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-web"
+    },
+    {
+      "id": "h14",
+      "app": "whatsapp-web",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-web"
+    },
+    {
+      "id": "h15",
+      "app": "whatsapp-web",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-web"
+    },
+    {
+      "id": "h16",
+      "app": "whatsapp-web",
+      "pass": false,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": true,
+      "askReasons": [
+        "Ben's message refers to 'last sat', which is before the rota week (Mon 19 Oct to Sun 25 Oct), so it does not affect next week's rota."
+      ],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-web"
+    },
+    {
+      "id": "h17",
+      "app": "whatsapp-web",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "whatsapp-web"
+    },
+    {
+      "id": "h18",
+      "app": "telegram",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "telegram"
+    },
+    {
+      "id": "h19",
+      "app": "telegram",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "telegram"
+    },
+    {
+      "id": "h20",
+      "app": "telegram",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": true,
+      "gotAsk": true,
+      "askReasons": [
+        "Jo says something has come up next week but gives no days, shifts, or times, so it can't be turned into a constraint yet."
+      ],
+      "sources": [
+        "live"
+      ],
+      "format": "telegram"
+    },
+    {
+      "id": "h21",
+      "app": "telegram",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "telegram"
+    },
+    {
+      "id": "h22",
+      "app": "telegram",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "telegram"
+    },
+    {
+      "id": "h23",
+      "app": "line",
+      "pass": false,
+      "missing": [
+        "[\"Jo Silva\",\"unavailable\",\"2026-10-21\",\"2026-10-21\",null,\"12:00\",false,null,null]",
+        "[\"Jo Silva\",\"unavailable\",\"2026-10-23\",\"2026-10-23\",null,\"12:00\",false,null,null]"
+      ],
+      "extra": [
+        "[\"Jo Silva\",\"unavailable\",\"2026-10-21\",\"2026-10-21\",null,null,false,null,null]",
+        "[\"Jo Silva\",\"unavailable\",\"2026-10-23\",\"2026-10-23\",\"00:00\",\"12:00\",false,null,null]"
+      ],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "line"
+    },
+    {
+      "id": "h24",
+      "app": "line",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "line"
+    },
+    {
+      "id": "h25",
+      "app": "line",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "line"
+    },
+    {
+      "id": "h26",
+      "app": "line",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "line"
+    },
+    {
+      "id": "h27",
+      "app": "plain",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "plain"
+    },
+    {
+      "id": "h28",
+      "app": "plain",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": false,
+      "askReasons": [],
+      "sources": [
+        "live"
+      ],
+      "format": "plain"
+    },
+    {
+      "id": "h29",
+      "app": "plain",
+      "pass": true,
+      "missing": [],
+      "extra": [],
+      "expectAsk": true,
+      "gotAsk": true,
+      "askReasons": [
+        "Jo's message hints at possible unavailability depending on exam dates, but it is too vague to act on and names no days or shifts."
+      ],
+      "sources": [
+        "live"
+      ],
+      "format": "plain"
+    },
+    {
+      "id": "h30",
+      "app": "plain",
+      "pass": false,
+      "missing": [],
+      "extra": [],
+      "expectAsk": false,
+      "gotAsk": true,
+      "askReasons": [
+        "31/10 is Sat 31 Oct, outside the rota week"
+      ],
+      "sources": [
+        "live"
+      ],
+      "format": "plain"
+    }
+  ]
+}
